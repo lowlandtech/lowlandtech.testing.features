@@ -4,14 +4,11 @@ on:
   push:
     branches:
       - main
-      - develop
-      - feature/*
       - release/*
       - hotfix/*
   pull_request:
     branches:
       - main
-      - develop
 
 jobs:
   build:
@@ -32,11 +29,11 @@ jobs:
 
       # Restore .NET dependencies
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore src/lowlandtech.generator.application 
 
       # Build the .NET project
       - name: Build project
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build src/lowlandtech.generator.application  --no-restore --configuration Release
 
       # Pack the project Plugin into a NuGet package
       - name: Pack the project Plugin
