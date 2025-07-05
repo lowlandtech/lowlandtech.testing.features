@@ -10,6 +10,46 @@ It supports:
 
 ---
 
+## 🟢 Usage
+
+After building or downloading the `ltx` console tool, you can generate a Markdown coverage report with:
+
+```bash
+ltx report ../MyTests.dll --file Coverage.md --title "My Report Title"
+```
+
+✅ **Arguments:**
+
+- `<assembly>`: Path to your compiled test assembly (`.dll`)
+- `--file`: Output file to write the Markdown report
+- `--title`: Optional report title (defaults to **Feature Coverage Report**)
+
+✅ **Example:**
+
+```bash
+ltx report ./bin/Debug/net8.0/MyTests.dll --file ./coverage.md --title "My Project Feature Coverage"
+```
+
+This generates `coverage.md`:
+
+```markdown
+# My Project Feature Coverage
+
+## Simple scenario title
+
+**Scenario Code:** `VCHIP-4001-SC001`
+
+> **Given:** Given a simple context
+> **When:** When an action occurs
+> **Then:** Then an outcome is expected
+
+**Test Class:** `ScenarioWithCodeAndTitle`
+
+**Tags:** `VCHIP-4001-SC001`
+
+- ✅ `ShouldBeTrue` — Outcome happened (`VCHIP-4001-UAC001`)
+```
+
 ## 🧩 Key Components
 
 ### ✅ Base Classes
@@ -42,33 +82,54 @@ dotnet add package LowlandTech.Testing.Features
 ## 🧪 Example Usage
 
 ```csharp
-[Scenario("A superadmin user and agent are seeded",
-          "The graph is queried for nodes and relationships",
-          "The user and agent should be linked with correct properties")]
-[NodeId("a5f7...")]
-[TaskId("VCHIP-2040-TK01")]
-[UseCaseId("VCHIP-2040-UC01")]
-public class WhenSeedingSuperadmin : WhenUsingDatabase<GraphContext>
+[Scenario(
+    "VCHIP-4001-SC001",
+    "Simple scenario title",
+    "Given a simple context",
+    "When an action occurs",
+    "Then an outcome is expected")]
+public class ScenarioWithCodeAndTitle : WhenTestingFor<int>
 {
-    private Node? _user;
-    private Node? _agent;
-
-    protected override async Task GivenAsync() => await Db.Use<AdminAgentUseCase>();
-    protected override async Task WhenAsync()
-    {
-        _user = await Db.Nodes.FindAsync(AdminAgentUseCase.UserId);
-        _agent = await Db.Nodes.FindAsync(AdminAgentUseCase.AgentId);
-    }
-
+    protected override int For() => 0;
+    protected override void When() { }
     [Fact]
-    [Then("User and agent should be linked")]
-    public void ItShouldLinkUserToAgent()
-    {
-        _user.ShouldNotBeNull();
-        _agent.ShouldNotBeNull();
-        _user!["Role"].ShouldBe("admin");
-    }
+    [Then("Outcome happened", "VCHIP-4001-UAC001")]
+    public void ShouldBeTrue() { 0.ShouldBe(0); }
 }
+
+[Scenario("NodeId scenario", "When testing NodeId", "Then NodeId should be included")]
+[NodeId("vy.test.nodeid")]
+public class ScenarioWithNodeId : WhenTestingFor<int>
+{
+    protected override int For() => 0;
+    protected override void When() { }
+    [Fact]
+    [Then("NodeId included")]
+    public void ShouldIncludeNodeId() { }
+}
+
+[Scenario("TaskId scenario", "When testing TaskId", "Then TaskId should be included")]
+[TaskId("VCHIP-4001-TK001")]
+public class ScenarioWithTaskId : WhenTestingFor<int>
+{
+    protected override int For() => 0;
+    protected override void When() { }
+    [Fact]
+    [Then("TaskId included")]
+    public void ShouldIncludeTaskId() { }
+}
+
+[Scenario("UseCaseId scenario", "When testing UseCaseId", "Then UseCaseId should be included")]
+[UseCaseId("VCHIP-4001-UC001")]
+public class ScenarioWithUseCaseId : WhenTestingFor<int>
+{
+    protected override int For() => 0;
+    protected override void When() { }
+    [Fact]
+    [Then("UseCaseId included")]
+    public void ShouldIncludeUseCaseId() { }
+}
+
 ```
 
 ---
