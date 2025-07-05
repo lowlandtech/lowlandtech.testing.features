@@ -1,4 +1,4 @@
-name: LowlandTech.Generator Build, Pack, and Publish
+name: LowlandTech.Testing.Features Build, Pack, and Publish
 
 on:
   push:
