@@ -19,10 +19,10 @@
 	<PackageVersion>2025.7.1</PackageVersion>
 
 	<!-- Package metadata -->
-	<PackageId>LowlandTech.Testing.Features</PackageId>
+	<PackageId>LowlandTech.Testing.Features.Reporter</PackageId>
 	<Title>LowlandTech.Testing.Features</Title>
 	<Description>Asynchronous Testing.Features-style state management with middleware, undo/redo, and test support for .NET.</Description>
-	<PackageTags>redux,state management,async,middleware,lowlandtech</PackageTags>
+	<PackageTags>redux,state management,async,middleware,lowlandtech, cli</PackageTags>
 	<RepositoryUrl>https://github.com/lowlandtech/generator</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -43,6 +43,7 @@
 
 	<!-- Preserve compilation context for test projects -->
 	<PreserveCompilationContext>true</PreserveCompilationContext>
+	<AssemblyName>ltx</AssemblyName>
 
 	<!-- Optional: define where your NuGet package will output -->
 	<!--<PackageOutputPath>./nupkg</PackageOutputPath>-->
