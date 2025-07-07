@@ -12,13 +12,22 @@ public abstract class WhenTestingForAsync<TState>
     /// <summary>
     /// Gets the current state of the system under test (SUT).
     /// </summary>
-    protected TState Sut { get; private set; }
+    protected TState Sut { get; set; }
 
     /// <summary>
     /// Creates and returns an instance of the state object associated with the current context.
     /// </summary>
     /// <returns>An instance of type <typeparamref name="TState"/> representing the state for the current context.</returns>
     protected abstract TState For();
+
+    /// <summary>
+    /// Provides an opportunity to set up preconditions or initial state asynchronously  before the main operation is
+    /// executed.
+    /// </summary>
+    /// <remarks>This method is intended to be overridden in derived classes to perform any  necessary setup
+    /// logic. By default, it performs no action and completes immediately.</remarks>
+    /// <returns></returns>
+    protected virtual Task GivenAsync() => Task.CompletedTask;
 
     /// <summary>
     /// Executes an asynchronous operation defined by the derived class.
@@ -38,6 +47,7 @@ public abstract class WhenTestingForAsync<TState>
     protected WhenTestingForAsync()
     {
         Sut = For();
+        GivenAsync().GetAwaiter().GetResult();
         WhenAsync().GetAwaiter().GetResult();
     }
 }

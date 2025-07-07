@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Base;
+﻿using Bunit;
+
+namespace LowlandTech.Testing.Features.Base;
 
 /// <summary>
 /// Provides a base class for defining test scenarios with a "Given-When-Then" structure.
@@ -8,7 +10,7 @@
 /// tested. Derived classes must implement the <see cref="For"/>, <see cref="Given"/>, and <see cref="When"/> methods to
 /// define the specific behavior of the test.</remarks>
 /// <example>
-/// public class WhenInterpolatingGreetingTemplate : WhenTestingFor<string>
+/// public class WhenInterpolatingGreetingTemplate : WhenTestingComponent<string>
 /// {
 ///    private IDictionary _data = null!;
 ///    private string? _result;
@@ -26,7 +28,7 @@
 ///
 ///    protected override void When()
 ///    {
-///        _result = Sut.Interpolate(_data);
+///        _result = Cut.Interpolate(_data);
 ///    }
 ///
 ///    [Fact]
@@ -36,14 +38,14 @@
 ///    }
 /// }
 /// </example>
-public abstract class WhenTestingFor<T>
+public abstract class WhenTestingComponent<T> : TestContext
 {
     /// <summary>
     /// Represents the system under test (SUT) for the current test context.
     /// </summary>
     /// <remarks>This field is typically initialized with the instance of the type being tested. It is
     /// intended to be used in test scenarios to verify the behavior of the system under test.</remarks>
-    protected T Sut { get; set; }
+    protected T Cut { get; set; }
 
     /// <summary>
     /// Performs an operation and returns a result of type <typeparamref name="T"/>.
@@ -70,11 +72,11 @@ public abstract class WhenTestingFor<T>
     protected virtual void When(){}
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WhenTestingFor"/> class.
+    /// Initializes a new instance of the <see cref="WhenTestingComponent"/> class.
     /// </summary>
     /// <remarks>The constructor automatically calls the <c>Setup</c> method to initialize the
     /// instance.</remarks>
-    public WhenTestingFor()
+    public WhenTestingComponent()
     {
         Setup();
     }
@@ -86,7 +88,7 @@ public abstract class WhenTestingFor<T>
     /// that the SUT is prepared and the necessary preconditions and actions are applied.</remarks>
     private void Setup()
     {
-        Sut = For();
+        Cut = For();
         Given();
         When();
     }
