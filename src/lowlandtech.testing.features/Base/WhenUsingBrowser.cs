@@ -57,10 +57,6 @@ public abstract class WhenUsingBrowser<TEntryPoint>
     protected IBrowser Browser = null!;
     protected IPage Page = null!;
     protected IServiceProvider Services = null!;
-
-    protected abstract string GivenDescription { get; }
-    protected abstract string WhenDescription { get; }
-
     protected abstract Task GivenAsync();
     protected abstract Task WhenAsync();
 
