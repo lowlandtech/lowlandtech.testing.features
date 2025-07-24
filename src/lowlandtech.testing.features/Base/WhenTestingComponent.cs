@@ -69,7 +69,7 @@ public abstract class WhenTestingComponent<T> : TestContext
     /// <remarks>This method is intended to be overridden in a derived class to define the specific behavior 
     /// that occurs when the associated condition or event is met. The implementation of this method  should encapsulate
     /// the logic for handling the triggering scenario.</remarks>
-    protected virtual void When(){}
+    protected virtual Task When() => Task.CompletedTask;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WhenTestingComponent"/> class.
