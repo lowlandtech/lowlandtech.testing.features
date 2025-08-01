@@ -74,7 +74,7 @@ public abstract class WhenTestingFor<T>
     /// </summary>
     /// <remarks>The constructor automatically calls the <c>Setup</c> method to initialize the
     /// instance.</remarks>
-    public WhenTestingFor()
+    protected WhenTestingFor()
     {
         Setup();
     }

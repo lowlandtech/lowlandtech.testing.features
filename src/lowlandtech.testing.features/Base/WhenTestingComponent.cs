@@ -76,7 +76,7 @@ public abstract class WhenTestingComponent<T> : TestContext
     /// </summary>
     /// <remarks>The constructor automatically calls the <c>Setup</c> method to initialize the
     /// instance.</remarks>
-    public WhenTestingComponent()
+    protected WhenTestingComponent()
     {
         Setup();
     }

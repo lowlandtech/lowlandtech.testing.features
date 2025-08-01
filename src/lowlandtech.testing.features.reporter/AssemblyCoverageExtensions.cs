@@ -5,12 +5,29 @@
 /// </summary>
 public static class AssemblyCoverageExtensions
 {
+    /// <summary>
+    /// Generates a code coverage report for the specified assembly and writes it to the specified file path.
+    /// </summary>
+    /// <remarks>This method analyzes the provided assembly to generate a detailed code coverage report.  The
+    /// report is written to the specified file path in plain text format.</remarks>
+    /// <param name="assembly">The assembly to analyze for code coverage.</param>
+    /// <param name="outputPath">The file path where the generated report will be saved. Must be a valid, writable path.</param>
+    /// <param name="reportTitle">An optional title for the report. If not provided, a default title will be used.</param>
     public static void GenerateCoverageReport(this Assembly assembly, string outputPath, string? reportTitle = null)
     {
         var sb = BuildReport(assembly, reportTitle);
         File.WriteAllText(outputPath, sb.ToString());
     }
 
+    /// <summary>
+    /// Generates a code coverage report for the specified assembly and writes it to the specified file path.
+    /// </summary>
+    /// <remarks>The generated report provides an overview of code coverage for the specified assembly. 
+    /// Ensure that the <paramref name="outputPath"/> is a valid and writable file path.</remarks>
+    /// <param name="assembly">The assembly for which the coverage report will be generated. Cannot be <see langword="null"/>.</param>
+    /// <param name="outputPath">The file path where the generated report will be saved. Cannot be <see langword="null"/> or empty.</param>
+    /// <param name="reportTitle">An optional title for the coverage report. If <see langword="null"/>, a default title will be used.</param>
+    /// <returns>A task that represents the asynchronous operation of generating and saving the coverage report.</returns>
     public static async Task GenerateCoverageReportAsync(this Assembly assembly, string outputPath, string? reportTitle = null)
     {
         var sb = BuildReport(assembly, reportTitle);
