@@ -1,6 +1,4 @@
-﻿using Xunit.Sdk;
-
-namespace LowlandTech.Testing.Features.Attributes;
+﻿namespace LowlandTech.Testing.Features.Attributes;
 
 /// <summary>
 /// Specifies that a method represents a "Then" step in a behavior-driven development (BDD) scenario.

@@ -1,6 +1,4 @@
-﻿using Bunit;
-
-namespace LowlandTech.Testing.Features.Base;
+﻿namespace LowlandTech.Testing.Features.Base;
 
 /// <summary>
 /// Provides a base class for defining test scenarios with a "Given-When-Then" structure.
