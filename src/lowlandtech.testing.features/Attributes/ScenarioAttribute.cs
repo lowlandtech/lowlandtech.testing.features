@@ -45,20 +45,20 @@ public sealed class ScenarioAttribute : Attribute
     /// <summary>
     /// Initializes a new instance of the <see cref="ScenarioAttribute"/> class with scenario code and title.
     /// </summary>
-    /// <param name="code">A unique scenario code (e.g., VCHIP-2061-SC001).</param>
+    /// <param name="specificationCode">A unique scenario code (e.g., VCHIP-2061-SC001).</param>
     /// <param name="title">The title of the scenario.</param>
     /// <param name="given">The "Given" step.</param>
     /// <param name="when">The "When" step.</param>
     /// <param name="then">The "Then" step.</param>
     public ScenarioAttribute(
-        string code,
+        string specificationCode,
         string title,
         string given,
         string? when = null,
         string? then = null)
     {
-        if (string.IsNullOrWhiteSpace(code))
-            throw new ArgumentException("Scenario code cannot be null or empty.", nameof(code));
+        if (string.IsNullOrWhiteSpace(specificationCode))
+            throw new ArgumentException("Scenario code cannot be null or empty.", nameof(specificationCode));
 
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Scenario title cannot be null or empty.", nameof(title));
@@ -66,7 +66,7 @@ public sealed class ScenarioAttribute : Attribute
         if (string.IsNullOrWhiteSpace(given))
             throw new ArgumentException("Given step cannot be null or empty.", nameof(given));
 
-        Code = code;
+        SpecificationCode = specificationCode;
         Title = title;
         Given = given;
         When = when;
@@ -76,16 +76,16 @@ public sealed class ScenarioAttribute : Attribute
     /// <summary>
     /// Initializes a new instance of the <see cref="ScenarioAttribute"/> class with scenario code, title, and arbitrary steps.
     /// </summary>
-    /// <param name="code">A unique scenario code.</param>
+    /// <param name="specificationCode">A unique scenario code.</param>
     /// <param name="title">The scenario title.</param>
     /// <param name="steps">All scenario steps (Given/When/Then/And), in order.</param>
     public ScenarioAttribute(
-        string code,
+        string specificationCode,
         string title,
         params string[] steps)
     {
-        if (string.IsNullOrWhiteSpace(code))
-            throw new ArgumentException("Scenario code cannot be null or empty.", nameof(code));
+        if (string.IsNullOrWhiteSpace(specificationCode))
+            throw new ArgumentException("Scenario code cannot be null or empty.", nameof(specificationCode));
 
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Scenario title cannot be null or empty.", nameof(title));
@@ -93,7 +93,7 @@ public sealed class ScenarioAttribute : Attribute
         if (steps == null || steps.Length == 0)
             throw new ArgumentException("At least one step must be provided.", nameof(steps));
 
-        Code = code;
+        SpecificationCode = specificationCode;
         Title = title;
         Steps = steps;
     }
@@ -101,7 +101,7 @@ public sealed class ScenarioAttribute : Attribute
     /// <summary>
     /// Gets the unique scenario code.
     /// </summary>
-    public string? Code { get; }
+    public string? SpecificationCode { get; }
 
     /// <summary>
     /// Gets the scenario title.
@@ -133,9 +133,9 @@ public sealed class ScenarioAttribute : Attribute
     /// </summary>
     public override string ToString()
     {
-        if (!string.IsNullOrWhiteSpace(Code) && !string.IsNullOrWhiteSpace(Title))
+        if (!string.IsNullOrWhiteSpace(SpecificationCode) && !string.IsNullOrWhiteSpace(Title))
         {
-            return $"{Code}: {Title}";
+            return $"{SpecificationCode}: {Title}";
         }
 
         return Given ?? (Steps != null && Steps.Length > 0 ? Steps[0] : string.Empty);
