@@ -1,6 +1,4 @@
-﻿using LowlandTech.Testing.Features.Reporter.Infrastructure.Models;
-
-namespace LowlandTech.Testing.Features.Tests.Types;
+﻿namespace LowlandTech.Testing.Features.Tests.Types;
 
 public sealed class FakeFlowSink : IResultSink
 {

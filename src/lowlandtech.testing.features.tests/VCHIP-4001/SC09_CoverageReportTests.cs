@@ -1,4 +1,4 @@
-﻿namespace LowlandTech.Testing.Features.Tests;
+﻿namespace LowlandTech.Testing.Features.Tests.VCHIP_4001;
 
 [Scenario(
     "VCHIP-4001-SC009",

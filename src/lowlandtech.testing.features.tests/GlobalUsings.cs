@@ -5,6 +5,7 @@ global using LowlandTech.Testing.Features.Base;
 global using LowlandTech.Testing.Features.Reporter.Abstractions;
 global using LowlandTech.Testing.Features.Reporter.Infrastructure;
 global using LowlandTech.Testing.Features.Reporter.Infrastructure.Extensions;
+global using LowlandTech.Testing.Features.Reporter.Infrastructure.Models;
 global using LowlandTech.Testing.Features.Reporter.Infrastructure.Sinks;
 global using LowlandTech.Testing.Features.Tests.Types;
 global using Microsoft.Extensions.DependencyInjection;

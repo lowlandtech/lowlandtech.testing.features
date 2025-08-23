@@ -9,6 +9,11 @@
 /// <param name="services"></param>
 public sealed class TypeRegistrar(IServiceCollection services) : ITypeRegistrar, ITypeResolver, IDisposable
 {
+    /// <summary>
+    /// Represents the service provider used to resolve dependencies within the application.
+    /// </summary>
+    /// <remarks>This field is nullable and may not always be initialized. Ensure it is properly set before
+    /// use.</remarks>
     private ServiceProvider? _provider;
 
     /// <summary>

@@ -1,12 +1,12 @@
 ﻿namespace LowlandTech.Testing.Features.Tests.VCHIP_4002;
 
 [Scenario(
-    "VCHIP-3372-SC003",
+    "VCHIP-4002-SC03",
     "Report single scenario to disk",
     "Given a normalized payload",
     "When reporting to disk",
     "Then a doc is written with status")]
-public sealed class WhenReportingScenarioToDisk
+public sealed class SC03_WhenReportingScenarioToDisk
     : WhenTestingForAsync<CliApp>
 {
     private string? _root;
@@ -24,11 +24,11 @@ public sealed class WhenReportingScenarioToDisk
     }
 
     [Fact]
-    [Then("Disk file exists", "VCHIP-3372-UAC020")]
+    [Then("Disk file exists", "VCHIP-4002-UAC030")]
     public void FileExists() => File.Exists(_file).ShouldBeTrue();
 
     [Fact]
-    [Then("Disk file contains status", "VCHIP-3372-UAC021")]
+    [Then("Disk file contains status", "VCHIP-4002-UAC031")]
     public void StatusIsPresent()
         => File.ReadAllText(_file!).ShouldContain("status: passed");
 }
