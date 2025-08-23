@@ -1,140 +1,184 @@
 # LowlandTech.Testing.Features
 
-This library provides a clean, composable, and agent-compatible Given-When-Then testing framework for Vylyrian projects.
+This library provides a clean, composable, and agent-compatible **Given–When–Then (GWT)** testing framework for Vylyrian/LowlandTech projects.
 
 It supports:
-- Pure logic testing without database I/O
-- In-memory EF Core integration tests
-- BIP-compliant metadata via `NodeId`, `TaskId`, and `UseCaseId` attributes
-- Razor-based test templating for plugin use case coverage
+
+* Pure logic testing without database I/O
+* EF Core integration tests with **relational** semantics (SQLite `:memory:`)
+* **Result-capturing bases** for sync/async & EF (typed `Result` with a sealed single-`When` site)
+* BIP-style traceability via `Scenario`, `UseCaseId`, etc.
 
 ---
 
-## 🟢 Usage
+## 🆕 What’s new (non-breaking)
 
-After building or downloading the `ltx` console tool, you can generate a Markdown coverage report with:
+Three optional base classes that capture a typed **`Result`** while preserving your existing **For / Given / When / Then** pattern:
 
-```bash
-ltx report ../MyTests.dll --file Coverage.md --title "My Report Title"
-```
+* `WhenTestingForWithResult<TSut, TResult>` *(sync)*
+* `WhenTestingForWithResultAsync<TSut, TResult>` *(async)*
+* `WhenUsingDatabaseWithResult<TContext, TResult>` *(EF Core / relational in-memory)*
 
-✅ **Arguments:**
+**Why**
 
-- `<assembly>`: Path to your compiled test assembly (`.dll`)
-- `--file`: Output file to write the Markdown report
-- `--title`: Optional report title (defaults to **Feature Coverage Report**)
+* Reduce per-test boilerplate (no ad‑hoc `_result` fields)
+* Enforce a single `When` site (sealed override) without adding a new “Act” verb
+* Keep specs readable and aligned with current GWT style
 
-✅ **Example:**
+**Breaking changes**: none
 
-```bash
-ltx report ./bin/Debug/net8.0/MyTests.dll --file ./coverage.md --title "My Project Feature Coverage"
-```
-
-This generates `coverage.md`:
-
-```markdown
-# My Project Feature Coverage
-
-## Simple scenario title
-
-**Scenario Code:** `VCHIP-4001-SC001`
-
-> **Given:** Given a simple context
-> **When:** When an action occurs
-> **Then:** Then an outcome is expected
-
-**Test Class:** `ScenarioWithCodeAndTitle`
-
-**Tags:** `VCHIP-4001-SC001`
-
-- ✅ `ShouldBeTrue` — Outcome happened (`VCHIP-4001-UAC001`)
-```
+---
 
 ## 🧩 Key Components
 
-### ✅ Base Classes
+### Core bases
 
-- `WhenTestingFor<T>` — lightweight, no I/O unit test base
-- `WhenUsingDatabase<TContext>` — integration test base for EF Core or `GraphContext`
+* `WhenTestingFor<T>` — lightweight, no I/O unit test base (sync)
+* `WhenTestingForAsync<T>` — async unit test base
+* `WhenUsingDatabase<TContext>` — EF Core integration base
 
-### ✅ Attributes
+### Result-capturing (opt‑in)
 
-| Attribute     | Description                                 |
-|---------------|---------------------------------------------|
-| `[Scenario]`  | Defines `Given`, `When`, `Then` text for documentation and templating |
-| `[Given]`     | Marks the setup context                    |
-| `[When]`      | Describes the trigger or action            |
-| `[Then]`      | Declares an outcome as a separate `[Fact]` |
-| `[NodeId]`    | Binds the test to a `vy.usecase` or `vy.test` node |
-| `[TaskId]`    | Links the test to a `vy.task` for BIP credit |
-| `[UseCaseId]` | Optionally groups the test with a broader use case |
+* `WhenTestingForWithResult<TSut, TResult>` — sync SUT; `When` returns a value captured in `Result`
+* `WhenTestingForWithResultAsync<TSut, TResult>` — async SUT; `When` returns a value captured in `Result`
+* `WhenUsingDatabaseWithResult<TContext, TResult>` — EF Core; `When` returns a value captured in `Result`
+
+### EF in‑memory behavior (important)
+
+`WhenUsingDatabase<TContext>` and `WhenUsingDatabaseWithResult<TContext, TResult>` default to **SQLite `:memory:`** via a **single open connection per test instance** (no `cache=shared`). This yields **relational semantics** (FKs, indexes, constraints). Supply a connection string in a derived class to switch to file‑backed SQLite or another provider (e.g., Npgsql/SqlServer).
 
 ---
 
-## 🔨 Installation
+## 🧪 Result‑Capturing Examples (minimal)
 
-```bash
-dotnet add package LowlandTech.Testing.Features
+### Non‑DB (sync)
+
+```csharp
+[Scenario("VCHIP-5001-SC001", "Greet user", "Given a Greeter", "When greeting Wendell", "Then message is correct")]
+public sealed class WhenGreetingAUser
+  : WhenTestingForWithResult<Greeter, string>
+{
+    protected override Greeter For() => new Greeter(prefix: "Hello");
+    protected override Task GivenAsync() => Task.CompletedTask;
+
+    protected override Task<string> WhenWithResult()
+        => Task.FromResult(Sut.Greet("Wendell"));
+
+    [Fact]
+    [Then("Returns 'Hello, Wendell!'", "VCHIP-5001-UAC001")]
+    public void MessageIsCorrect() => Result.ShouldBe("Hello, Wendell!");
+}
+```
+
+### Non‑DB (async SUT)
+
+```csharp
+[Scenario("VCHIP-5002-SC001", "Lookup", "Given a Repository", "When fetching by id", "Then returns entity")]
+public sealed class WhenFetchingById
+  : WhenTestingForWithResultAsync<MyRepo, MyEntity>
+{
+    private InMemoryStore _store = default!;
+
+    protected override MyRepo For() => new MyRepo(_store);
+
+    protected override async Task GivenAsync()
+    {
+        _store = new InMemoryStore();
+        await _store.SeedAsync();
+    }
+
+    protected override Task<MyEntity> WhenWithResultAsync()
+        => Sut.GetAsync(MyEntityIds.Known);
+
+    [Fact]
+    [Then("Returns known entity", "VCHIP-5002-UAC001")]
+    public void ReturnsEntity() => Result.Id.ShouldBe(MyEntityIds.Known);
+}
+```
+
+### EF Core (relational in‑memory)
+
+```csharp
+[Scenario(
+  "VCHIP-3049-SC009",
+  "Build full flow",
+  "Given FlowBuilderUseCase is seeded",
+  "When building/saving a flow",
+  "Then it contains all components")]
+public sealed class WhenBuildingAndSavingFlow
+  : WhenUsingDatabaseWithResult<FlowContext, FlowScheme>
+{
+    protected override async Task GivenAsync() => await Db.Use<FlowBuilderUseCase>();
+
+    protected override async Task<FlowScheme> WhenAsyncWithResult()
+    {
+        new FlowBuilder(context: Db)
+          .WithId(FlowBuilderUseCase.FlowId)
+          .WithName("Full Flow")
+          .WithDescription("Complete test case")
+          .AddTrigger(TriggerTypes.ObjectCreated)
+          .AddRoutingRule("Workspace", "TemplateId", "abc123")
+          .AddStep("Initialize").AddStep("Execute")
+          .Save();
+
+        return await Db.Schemes
+          .Include(s => s.Triggers)
+          .Include(s => s.RoutingRules)
+          .Include(s => s.Steps)
+          .SingleAsync(s => s.Id == FlowBuilderUseCase.FlowId);
+    }
+
+    [Fact]
+    [Then("Has 2 steps", "VCHIP-3049-UAC014")]
+    public void HasTwoSteps() => Result.Steps.Count.ShouldBe(2);
+}
 ```
 
 ---
 
-## 🧪 Example Usage
+## 🔧 Installation
+
+```bash
+# From repo root
+dotnet build
+```
+
+---
+
+## 🧪 Example Usage (core bases)
+
+> The examples above show the result‑capturing variants. Below is a classic core‑base example for comparison.
 
 ```csharp
 [Scenario(
     "VCHIP-4001-SC001",
-    "Simple scenario title",
-    "Given a simple context",
-    "When an action occurs",
-    "Then an outcome is expected")]
-public class ScenarioWithCodeAndTitle : WhenTestingFor<int>
+    "Create node",
+    "Given the context is seeded",
+    "When creating a node",
+    "Then the node exists")]
+public sealed class WhenCreatingNode : WhenUsingDatabase<GraphContext>
 {
-    protected override int For() => 0;
-    protected override void When() { }
-    [Fact]
-    [Then("Outcome happened", "VCHIP-4001-UAC001")]
-    public void ShouldBeTrue() { 0.ShouldBe(0); }
-}
+    private Node? _node;
 
-[Scenario("NodeId scenario", "When testing NodeId", "Then NodeId should be included")]
-[NodeId("vy.test.nodeid")]
-public class ScenarioWithNodeId : WhenTestingFor<int>
-{
-    protected override int For() => 0;
-    protected override void When() { }
-    [Fact]
-    [Then("NodeId included")]
-    public void ShouldIncludeNodeId() { }
-}
+    protected override async Task GivenAsync()
+    {
+        await Db.Use<SeedNodesUseCase>();
+    }
 
-[Scenario("TaskId scenario", "When testing TaskId", "Then TaskId should be included")]
-[TaskId("VCHIP-4001-TK001")]
-public class ScenarioWithTaskId : WhenTestingFor<int>
-{
-    protected override int For() => 0;
-    protected override void When() { }
-    [Fact]
-    [Then("TaskId included")]
-    public void ShouldIncludeTaskId() { }
-}
+    protected override async Task WhenAsync()
+    {
+        _node = await Db.Nodes.FindAsync(SeedNodesUseCase.NodeId);
+    }
 
-[Scenario("UseCaseId scenario", "When testing UseCaseId", "Then UseCaseId should be included")]
-[UseCaseId("VCHIP-4001-UC001")]
-public class ScenarioWithUseCaseId : WhenTestingFor<int>
-{
-    protected override int For() => 0;
-    protected override void When() { }
     [Fact]
-    [Then("UseCaseId included")]
-    public void ShouldIncludeUseCaseId() { }
+    [Then("Node exists", "VCHIP-4001-UAC001")]
+    public void NodeExists() => _node.ShouldNotBeNull();
 }
-
 ```
 
 ---
 
-## 🧱 Folder Structure
+## 🧱 Suggested Folder Structure
 
 ```
 /src/lowlandtech.testing.features/
@@ -148,14 +192,17 @@ public class ScenarioWithUseCaseId : WhenTestingFor<int>
 │   └── UseCaseIdAttribute.cs
 ├── Base/
 │   ├── WhenTestingFor.cs
-│   └── WhenUsingDatabase.cs
+│   ├── WhenTestingForAsync.cs
+│   ├── WhenUsingDatabase.cs
+│   ├── WhenTestingForWithResult.cs
+│   ├── WhenTestingForWithResultAsync.cs
+│   └── WhenUsingDatabaseWithResult.cs
 ```
 
 ---
 
-## 📚 Related Features
+## 📎 Notes & Conventions
 
-- [`VCHIP-1100` IUseCase Pattern](/docs/VCHIP-1100%20IUseCase%20Pattern.md)
-- [`VCHIP-1102` NodeId Attribute Convention](/docs/VCHIP-1102%20NodeId%20Attribute%20Convention.md)
-- [`VCHIP-1103` TaskId Attribute Convention](/docs/VCHIP-1103%20TaskId%20Attribute%20Convention.md)
-- [`VCHIP-1106` UseCaseId Attribute Convention](/docs/VCHIP-1106%20UseCaseId%20Attribute%20Convention.md)
+* **Single Act**: `When` is sealed in result‑capturing bases to enforce one behavior per scenario.
+* **Relational in‑memory**: DB bases use a single open SQLite `:memory:` connection per test instance (no `cache=shared`). Override the provider as needed in a derived class.
+* **Traceability**: Tag scenarios with `VCHIP-XXXX-UCYYY/SCZZZ` in attributes to keep doc ↔ test ↔ code alignment.

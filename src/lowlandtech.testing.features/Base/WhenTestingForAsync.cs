@@ -38,12 +38,11 @@ public abstract class WhenTestingForAsync<TState>
     protected virtual Task WhenAsync() => Task.CompletedTask;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WhenTestingForAsync"/> class and performs asynchronous setup
-    /// operations.
+    /// Initializes a new instance of the <see cref="WhenTestingForAsync"/> class.
     /// </summary>
-    /// <remarks>This constructor synchronously waits for the completion of asynchronous setup tasks.  Use
-    /// caution when calling this constructor, as blocking on asynchronous operations can lead to potential deadlocks 
-    /// in certain synchronization contexts, such as UI threads.</remarks>
+    /// <remarks>This constructor sets up the system under test (SUT) by invoking the <see cref="For"/> method
+    /// and ensures that the asynchronous setup and execution steps, <see cref="GivenAsync"/> and  <see
+    /// cref="WhenAsync"/>, are completed synchronously.</remarks>
     protected WhenTestingForAsync()
     {
         Sut = For();

@@ -1,4 +1,4 @@
-﻿namespace LowlandTech.Testing.Features.Reporter;
+﻿namespace LowlandTech.Testing.Features.Reporter.Infrastructure.Extensions;
 
 /// <summary>
 /// Provides extension methods for generating coverage reports from test assemblies.

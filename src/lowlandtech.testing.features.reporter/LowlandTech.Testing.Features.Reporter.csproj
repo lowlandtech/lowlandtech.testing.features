@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -44,6 +44,7 @@
 
 	<!-- Preserve compilation context for test projects -->
 	<PreserveCompilationContext>true</PreserveCompilationContext>
+	<AssemblyName>ltr</AssemblyName>
 
 	<!-- Optional: define where your NuGet package will output -->
 	<!--<PackageOutputPath>./nupkg</PackageOutputPath>-->
@@ -53,6 +54,11 @@
   <ItemGroup>
 	  <None Include="../../icon.svg" Pack="true" PackagePath="" />
 	  <None Include="../../README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
+    <PackageReference Include="Spectre.Console.Cli.Extensions.DependencyInjection" Version="0.11.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.8" />
   </ItemGroup>
 
   <!-- Release notes pulled from CHANGELOG -->
