@@ -29,5 +29,5 @@ public sealed class SC02_WhenGeneratingCoverageDoc : WhenTestingForAsync<CliApp>
 
     [Fact]
     [Then("File contains title", "VCHIP-4002-UAC021")]
-    public void FileHasTitle() => File.ReadAllText(_out).ShouldContain("Test Coverage");
+    public void FileHasTitle() => File.ReadAllText(_out!).ShouldContain("Test Coverage");
 }
