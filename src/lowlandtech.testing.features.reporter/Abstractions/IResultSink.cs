@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Reporter.Abstractions;
+﻿using LowlandTech.Scripts.Abstractions.Models;
+
+namespace LowlandTech.Testing.Features.Reporter.Abstractions;
 
 /// <summary>
 /// Defines a sink for processing and storing scenario results.

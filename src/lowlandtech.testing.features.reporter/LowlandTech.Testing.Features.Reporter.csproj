@@ -60,6 +60,9 @@
     <PackageReference Include="Spectre.Console.Cli.Extensions.DependencyInjection" Version="0.11.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.8" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\lowlandtech\scripts\lowlandtech.scripts.abstractions\LowlandTech.Scripts.Abstractions.csproj" />
+  </ItemGroup>
 
   <!-- Release notes pulled from CHANGELOG -->
   <Target Name="ReadReleaseNotes" BeforeTargets="Pack">

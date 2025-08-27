@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Tests.Types;
+﻿using LowlandTech.Scripts.Abstractions.Models;
+
+namespace LowlandTech.Testing.Features.Tests.Types;
 
 public sealed class FakeFlowSink : IResultSink
 {

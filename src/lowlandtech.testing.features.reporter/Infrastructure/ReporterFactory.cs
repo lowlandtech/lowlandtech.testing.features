@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Reporter.Infrastructure;
+﻿using LowlandTech.Scripts.Abstractions;
+
+namespace LowlandTech.Testing.Features.Reporter.Infrastructure;
 
 /// <summary>
 /// Provides methods to configure and build a <see cref="CommandApp"/> instance with predefined commands and services.
@@ -23,7 +25,7 @@ public class ReporterFactory
         cfg.SetApplicationName("ltr");
         cfg.PropagateExceptions();
 
-        foreach (var b in CliCatalog.Roots)
+        foreach (var b in ReporterCatalog.Roots)
         {
             cfg.AddBranch(b.Name, bb =>
             {

@@ -4,7 +4,6 @@ global using LowlandTech.Testing.Features.Reporter.Abstractions;
 global using LowlandTech.Testing.Features.Reporter.Commands;
 global using LowlandTech.Testing.Features.Reporter.Infrastructure;
 global using LowlandTech.Testing.Features.Reporter.Infrastructure.Extensions;
-global using LowlandTech.Testing.Features.Reporter.Infrastructure.Models;
 global using LowlandTech.Testing.Features.Reporter.Infrastructure.Sinks;
 global using Microsoft.Extensions.DependencyInjection;
 global using Spectre.Console;

@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Reporter.Infrastructure.Sinks;
+﻿using LowlandTech.Scripts.Abstractions.Models;
+
+namespace LowlandTech.Testing.Features.Reporter.Infrastructure.Sinks;
 
 /// <summary>
 /// Provides functionality to persist scenario results to disk.

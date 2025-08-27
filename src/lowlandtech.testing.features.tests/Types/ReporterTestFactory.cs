@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Tests.Types;
+﻿using LowlandTech.Scripts.Abstractions;
+
+namespace LowlandTech.Testing.Features.Tests.Types;
 
 internal class ReporterTestFactory
 {
@@ -17,7 +19,7 @@ internal class ReporterTestFactory
         cfg.SetApplicationName("ltr");
         cfg.PropagateExceptions();
 
-        foreach (var b in CliCatalog.Roots)
+        foreach (var b in ReporterCatalog.Roots)
         {
             cfg.AddBranch(b.Name, bb =>
             {

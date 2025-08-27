@@ -1,13 +1,15 @@
-﻿namespace LowlandTech.Testing.Features.Reporter.Infrastructure;
+﻿using LowlandTech.Scripts.Abstractions.Models;
+
+namespace LowlandTech.Testing.Features.Reporter.Infrastructure;
 
 /// <summary>
 /// Provides a catalog of CLI (Command-Line Interface) branches and commands for organizing and accessing the available
 /// CLI functionality.
 /// </summary>
-/// <remarks>The <see cref="CliCatalog"/> class defines a set of predefined CLI branches, each containing specific
+/// <remarks>The <see cref="ReporterCatalog"/> class defines a set of predefined CLI branches, each containing specific
 /// commands. These branches represent the root-level structure of the CLI and can be used to navigate or execute
 /// commands.</remarks>
-public static class CliCatalog
+public static class ReporterCatalog
 {
 
     /// <summary>

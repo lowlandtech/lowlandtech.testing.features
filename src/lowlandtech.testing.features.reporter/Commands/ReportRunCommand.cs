@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Reporter.Commands;
+﻿using LowlandTech.Scripts.Abstractions.Models;
+
+namespace LowlandTech.Testing.Features.Reporter.Commands;
 
 /// <summary>
 /// Represents the settings used to configure the execution of a report command.

@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Reporter.Commands;
+﻿using LowlandTech.Scripts.Abstractions.Models;
+
+namespace LowlandTech.Testing.Features.Reporter.Commands;
 
 /// <summary>
 /// Represents the settings for reporting a scenario's results, including options for scenario identification, status,
