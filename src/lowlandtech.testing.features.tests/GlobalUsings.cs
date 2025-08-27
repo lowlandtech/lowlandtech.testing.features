@@ -13,5 +13,6 @@ global using Spectre.Console;
 global using Spectre.Console.Cli;
 global using Spectre.Console.Testing;
 global using System.Reflection;
+global using LowlandTech.Scripts.Abstractions;
 global using Xunit;
 global using Xunit.Abstractions;

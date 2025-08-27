@@ -1,6 +1,4 @@
-﻿using LowlandTech.Scripts.Abstractions;
-
-namespace LowlandTech.Testing.Features.Reporter.Infrastructure;
+﻿namespace LowlandTech.Testing.Features.Reporter.Infrastructure;
 
 /// <summary>
 /// Provides methods to configure and build a <see cref="CommandApp"/> instance with predefined commands and services.

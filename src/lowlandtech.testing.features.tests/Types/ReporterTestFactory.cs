@@ -1,6 +1,4 @@
-﻿using LowlandTech.Scripts.Abstractions;
-
-namespace LowlandTech.Testing.Features.Tests.Types;
+﻿namespace LowlandTech.Testing.Features.Tests.Types;
 
 internal class ReporterTestFactory
 {
