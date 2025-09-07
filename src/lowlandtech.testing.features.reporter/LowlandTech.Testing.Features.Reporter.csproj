@@ -56,7 +56,7 @@
 	  <None Include="../../README.md" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.51.1" />
     <PackageReference Include="Spectre.Console.Cli.Extensions.DependencyInjection" Version="0.11.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.8" />
   </ItemGroup>
