@@ -59,7 +59,7 @@ public abstract class WhenTestingComponent<T> : TestContext
     /// </summary>
     /// <remarks>This method is intended to be overridden in derived classes to set up the specific 
     /// conditions necessary for the test. It is called before the execution of the test logic.</remarks>
-    protected virtual void Given(){}
+    protected virtual void Given() { }
 
     /// <summary>
     /// Executes the action or behavior that is triggered by a specific condition or event.
