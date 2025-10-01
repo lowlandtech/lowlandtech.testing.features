@@ -61,7 +61,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\lowlandtech\scripts\lowlandtech.scripts.abstractions\LowlandTech.Scripts.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\lowlandtech.web\scripts\lowlandtech.scripts.abstractions\LowlandTech.Scripts.Abstractions.csproj" />
   </ItemGroup>
 
   <!-- Release notes pulled from CHANGELOG -->
