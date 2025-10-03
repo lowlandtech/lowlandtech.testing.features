@@ -8,6 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="VCHIP-4001\**" />
+    <Compile Remove="VCHIP-4002\**" />
+    <EmbeddedResource Remove="VCHIP-4001\**" />
+    <EmbeddedResource Remove="VCHIP-4002\**" />
+    <None Remove="VCHIP-4001\**" />
+    <None Remove="VCHIP-4002\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="LowlandTech.Testing.Features.Tests.v3.ncrunchproject" />
   </ItemGroup>
 
@@ -28,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\lowlandtech.testing.features.reporter\LowlandTech.Testing.Features.Reporter.csproj" />
     <ProjectReference Include="..\lowlandtech.testing.features\LowlandTech.Testing.Features.csproj" />
   </ItemGroup>
 
