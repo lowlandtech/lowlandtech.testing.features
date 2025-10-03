@@ -10,6 +10,7 @@ global using Spectre.Console;
 global using Spectre.Console.Cli;
 global using Spectre.Console.Cli.Unsafe;
 global using System.ComponentModel;
+global using System.Diagnostics;
 global using System.Reflection;
 global using System.Text;
 global using LowlandTech.Scripts.Abstractions;
