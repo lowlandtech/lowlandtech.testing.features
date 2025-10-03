@@ -23,23 +23,13 @@ jobs:
           dotnet-version: '9.x'
 
       - name: Restore dependencies
-        run: dotnet restore src/lowlandtech.testing.features.sln
+        run: dotnet restore src/lowlandtech.testing.features/LowlandTech.Testing.Features.csproj
 
       - name: Build project
-        run: dotnet build src/lowlandtech.testing.features.sln --configuration Release --no-restore
-
-      - name: Run tests
-        run: dotnet test src/lowlandtech.testing.features.sln --configuration Release --no-build --logger "trx;LogFileName=test-results.trx"
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: '**/test-results.trx'
+        run: dotnet build src/lowlandtech.testing.features/LowlandTech.Testing.Features.csproj --configuration Release --no-restore
 
       - name: Pack NuGet package with pre-release suffix
-        run: dotnet pack src/lowlandtech.testing.features.sln --configuration Release --no-build --output ./nupkg /p:VersionSuffix=alpha
+        run: dotnet pack src/lowlandtech.testing.features/LowlandTech.Testing.Features.csproj --configuration Release --no-build --output ./nupkg /p:VersionSuffix=alpha
 
       - name: Publish NuGet package
         run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

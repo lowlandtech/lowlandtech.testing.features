@@ -29,27 +29,15 @@ jobs:
 
       # Restore .NET dependencies
       - name: Restore dependencies
-        run: dotnet restore src/lowlandtech.generator.application 
+        run: dotnet restore src/lowlandtech.testing.features/LowlandTech.Testing.Features.csproj
 
       # Build the .NET project
       - name: Build project
-        run: dotnet build src/lowlandtech.generator.application  --no-restore --configuration Release
+        run: dotnet build src/lowlandtech.testing.features/LowlandTech.Testing.Features.csproj --no-restore --configuration Release
 
-      # Pack the project Plugin into a NuGet package
-      - name: Pack the project Plugin
-        run: dotnet pack src/lowlandtech.generator /p:PackageVersion=2025.7.1 --no-build --configuration Release -o ./nuget
-
-      # Pack the project Domain into a NuGet package
-      - name: Pack the project Domain
-        run: dotnet pack src/lowlandtech.generator.domain /p:PackageVersion=2025.7.1 --no-build --configuration Release -o ./nuget
-
-      # Pack the project Infrastructure into a NuGet package
-      - name: Pack the project Infrastructure
-        run: dotnet pack src/lowlandtech.generator.infrastructure /p:PackageVersion=2025.7.1 --no-build --configuration Release -o ./nuget
-
-      # Pack the project Application into a NuGet package
-      - name: Pack the project Application
-        run: dotnet pack src/lowlandtech.generator.application /p:PackageVersion=2025.7.1 --no-build --configuration Release -o ./nuget
+      # Pack the project into a NuGet package
+      - name: Pack the project
+        run: dotnet pack src/lowlandtech.testing.features/LowlandTech.Testing.Features.csproj /p:PackageVersion=2025.7.1 --no-build --configuration Release -o ./nuget
 
       # Publish the NuGet package (only on the main branch)
       - name: Publish NuGet package
