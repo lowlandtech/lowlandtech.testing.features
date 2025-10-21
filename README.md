@@ -201,6 +201,19 @@ public sealed class WhenCreatingNode : WhenUsingDatabase<GraphContext>
 
 ---
 
+## Upgrading
+
+```bash
+# Increment patch version (2025.7.1 → 2025.7.2)
+.\publish-nuget.ps1
+
+# Increment minor version (2025.7.1 → 2025.8.0)
+.\publish-nuget.ps1 -VersionIncrement Minor
+
+# Increment major version (2025.7.1 → 2026.0.0)
+.\publish-nuget.ps1 -VersionIncrement Major
+```
+
 ## 📎 Notes & Conventions
 
 * **Single Act**: `When` is sealed in result‑capturing bases to enforce one behavior per scenario.

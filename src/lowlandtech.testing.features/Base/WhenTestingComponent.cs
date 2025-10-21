@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Base;
+﻿using TestContext = Bunit.TestContext;
+
+namespace LowlandTech.Testing.Features.Base;
 
 /// <summary>
 /// Provides a base class for defining test scenarios with a "Given-When-Then" structure.

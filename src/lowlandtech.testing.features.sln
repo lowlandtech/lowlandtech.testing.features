@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "files", "files", "{02EA681E
 		..\.github\workflows\develop.yml = ..\.github\workflows\develop.yml
 		..\LICENSE.md = ..\LICENSE.md
 		..\.github\workflows\main.yml = ..\.github\workflows\main.yml
+		publish-nuget.ps1 = publish-nuget.ps1
 		..\README.md = ..\README.md
 		..\docs\VCHIP-4001 Testing Features.md = ..\docs\VCHIP-4001 Testing Features.md
 		..\.github\workflows\wiki.yml = ..\.github\workflows\wiki.yml

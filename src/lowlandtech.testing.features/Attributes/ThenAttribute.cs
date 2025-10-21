@@ -1,4 +1,6 @@
-﻿namespace LowlandTech.Testing.Features.Attributes;
+﻿using ITraitAttribute = Xunit.v3.ITraitAttribute;
+
+namespace LowlandTech.Testing.Features.Attributes;
 
 /// <summary>
 /// Specifies that a method represents a "Then" step in a behavior-driven development (BDD) scenario.
@@ -21,7 +23,6 @@
 /// scenario. It is typically used in conjunction with other BDD step attributes, such as "Given" and "When".</remarks>
 /// <param name="description">A description of the "Then" step, typically written in natural language to describe the expected outcome.</param>
 /// <param name="code">A code to store the User Acceptance Criteria code in the format of VCHIP-XXXX-UACXXX.</param>
-[TraitDiscoverer("LowlandTech.Testing.Features.Attributes.ThenDiscoverer", "LowlandTech.Testing.Features")]
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 public class ThenAttribute(string description, string? code = null) : Attribute, ITraitAttribute
 {
@@ -34,4 +35,21 @@ public class ThenAttribute(string description, string? code = null) : Attribute,
     /// Gets or sets the code to store the User Acceptance Criteria code in the format of VCHIP-XXXX-UACXXX.
     /// </summary>
     public string? Code { get; set; } = code;
+
+    /// <summary>
+    /// Returns the traits for this ThenAttribute.
+    /// </summary>
+    public IReadOnlyCollection<KeyValuePair<string, string>> GetTraits()
+    {
+        var traits = new List<KeyValuePair<string, string>>
+        {
+            new KeyValuePair<string, string>("Step", "Then"),
+            new KeyValuePair<string, string>("Description", Description)
+        };
+
+        if (!string.IsNullOrWhiteSpace(Code))
+            traits.Add(new KeyValuePair<string, string>("Code", Code!));
+
+        return traits;
+    }
 }

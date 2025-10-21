@@ -1,42 +1,8 @@
+using Xunit;
+using TestContext = Bunit.TestContext; // Keep for other usages if needed
+
 namespace LowlandTech.Testing.Features.Base;
 
-/// <summary>
-/// Async-only G/W/T harness for bUnit/xUnit. Nothing runs in the ctor.
-/// xUnit awaits <see cref="InitializeAsync"/> before any [Fact].
-/// </summary>
-/// <example>
-/// <code>
-/// public sealed class WhenInterpolatingGreetingTemplate_Async
-///     : WhenTestingComponentAsync&lt;string&gt;
-/// {
-///     private IDictionary&lt;string, string&gt; _data = null!;
-///     private string? _result;
-///
-///     protected override Task&lt;string&gt; ForAsync(CancellationToken ct)
-///         =&gt; Task.FromResult("Welcome, {Title} {LastName}!");
-///
-///     protected override Task GivenAsync(CancellationToken ct)
-///     {
-///         _data = new Dictionary&lt;string, string&gt;
-///         {
-///             ["Title"] = "Dr.",
-///             ["LastName"] = "Who"
-///         };
-///         return Task.CompletedTask;
-///     }
-///
-///     protected override Task WhenAsync(CancellationToken ct)
-///     {
-///         _result = Cut.Interpolate(_data);
-///         return Task.CompletedTask;
-///     }
-///
-///     [Fact]
-///     public void ItShouldInterpolateTitleAndLastName()
-///         =&gt; _result.Should().Be("Welcome, Dr. Who!");
-/// }
-/// </code>
-/// </example>
 public abstract class WhenTestingComponentAsync<T> : TestContext, IAsyncLifetime
 {
     /// <summary>
@@ -64,7 +30,7 @@ public abstract class WhenTestingComponentAsync<T> : TestContext, IAsyncLifetime
     protected virtual Task WhenAsync(CancellationToken ct) => Task.CompletedTask;
 
     /// <summary>Runs For/Given/When in order, awaited.</summary>
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         var ct = TestCancellation;
         Cut = await ForAsync(ct).ConfigureAwait(false);
@@ -73,5 +39,5 @@ public abstract class WhenTestingComponentAsync<T> : TestContext, IAsyncLifetime
     }
 
     /// <summary>Override if you need async cleanup.</summary>
-    public virtual Task DisposeAsync() => Task.CompletedTask;
+    public virtual ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }
